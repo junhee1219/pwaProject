@@ -1,6 +1,6 @@
 function register() {
   // API endpoint for registration.
-  let register_url = "https://127.0.0.1:5000/api/register/begin";
+  let register_url = "http://127.0.0.1:5000/api/register/begin";
 
   // Call the registration API to get the PublicKeyCredentialCreationOptions.
   fetch(register_url, {
@@ -15,7 +15,7 @@ function register() {
       // Pass the PublicKeyCredentialCreationOptions to navigator.credentials.create().
       navigator.credentials.create({ publicKey: data }).then(function (newCredentialInfo) {
         // API endpoint for completing the registration.
-        let register_complete_url = "https://127.0.0.1:5000/api/register/complete";
+        let register_complete_url = "http://127.0.0.1:5000/api/register/complete";
 
         // Call the registration API to complete the registration process.
         fetch(register_complete_url, {
@@ -44,7 +44,7 @@ function register() {
 
 function authenticate() {
   // API endpoint for authentication.
-  let authenticate_url = "https://127.0.0.1:5000/api/authenticate/begin";
+  let authenticate_url = "http://127.0.0.1:5000/api/authenticate/begin";
 
   // Call the authentication API to get the PublicKeyCredentialRequestOptions.
   fetch(authenticate_url, {
@@ -59,7 +59,7 @@ function authenticate() {
       // Pass the PublicKeyCredentialRequestOptions to navigator.credentials.get().
       navigator.credentials.get({ publicKey: data }).then(function (assertion) {
         // API endpoint for completing the authentication.
-        let authenticate_complete_url = "https://127.0.0.1:5000/api/authenticate/complete";
+        let authenticate_complete_url = "http://127.0.0.1:5000/api/authenticate/complete";
 
         // Call the authentication API to complete the authentication process.
         fetch(authenticate_complete_url, {
