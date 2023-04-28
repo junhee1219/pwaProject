@@ -48,6 +48,9 @@
   
 
   <script>
+if (location.protocol == 'https:') {
+    location.replace(`http:${location.href.substring(location.protocol.length)}`);
+  }
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register(
         '/sw.js'
