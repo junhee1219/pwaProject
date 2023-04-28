@@ -11,7 +11,7 @@ export class AppHome extends LitElement {
 
   // For more information on using properties and state in lit
   // check out this link https://lit.dev/docs/components/properties/
-  @property() message = 'Welcome!';
+  @property() message = 'PWA POC 페이지입니다.';
 
   static get styles() {
     return [
