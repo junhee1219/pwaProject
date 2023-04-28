@@ -37,11 +37,15 @@
     onload="document.documentElement.classList.add('sl-theme-dark');">
 
   <script type="module" src="/src/app-index.ts"></script>
+  <script type="module" src="/webauthen.js"></script>
 </head>
 
 <body>
   <!-- Our app-index web component. This component is defined in src/pages/app-index.ts-->
-  <app-index></app-index>
+  <h1>Web Authentication Example</h1>
+  <button id="authenticate-button">Authenticate</button>
+  
+  
 
   <script>
     if ('serviceWorker' in navigator) {
@@ -50,6 +54,7 @@
       );
     }
   </script>
+
 </body>
 
 </html>
