@@ -40,6 +40,27 @@
   <script type="module" src="/webauthen.js"></script>
 </head>
 
+
+<div id="compass">로딩 중...</div>
+
+<script>
+window.addEventListener('deviceorientation', function(event) {
+  var alpha;
+  if(event.webkitCompassHeading) {
+    alpha = event.webkitCompassHeading; // Apple devices
+  }
+  else {
+    alpha = event.alpha; // Other devices
+  }
+
+  document.getElementById('compass').innerHTML = "나침반 각도: " + alpha;
+});
+</script>
+
+
+
+
+
 <body>
   <!-- Our app-index web component. This component is defined in src/pages/app-index.ts-->
   <h1>Web Authentication Example</h1>
