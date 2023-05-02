@@ -69,6 +69,8 @@ window.addEventListener('touchend', function(event) {
   // If dragged down by more than 100px, refresh the page
   if (distance > 100) {
     location.reload();
+    document.getElementById('authenticate').innerHTML = document.getElementById('authenticate').innerHTML + "rr"
+
   }
 }, false);
 
