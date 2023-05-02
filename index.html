@@ -49,9 +49,11 @@
 
 <body>
   <!-- Our app-index web component. This component is defined in src/pages/app-index.ts-->
-  <h1>test Example</h1>
+  <h1>test1 Example</h1>
   <button id="authenticate-button">z</button>
   <div id="compass">loading...</div>
+  <div id="text">콘솔</div>
+  <div id="console">loading...</div>
   
 
   <script>
@@ -94,7 +96,7 @@
     });
     if ('serviceWorker' in navigator) {
       $("#compass").text("서비스워커동작")
-
+      $("#console").text(process.browser)
       navigator.serviceWorker.register(
         '/sw.js'
       );
