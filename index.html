@@ -43,7 +43,16 @@
 
 <div id="compass">로딩 중...</div>
 
-<script>
+
+
+<body>
+  <!-- Our app-index web component. This component is defined in src/pages/app-index.ts-->
+  <h1>Web Authentication Example</h1>
+  <button id="authenticate-button">Authenticate</button>
+  
+  
+
+  <script>
 window.addEventListener('deviceorientation', function(event) {
   var alpha;
   if(event.webkitCompassHeading) {
@@ -55,23 +64,6 @@ window.addEventListener('deviceorientation', function(event) {
 
   document.getElementById('compass').innerHTML = "나침반 각도: " + alpha;
 });
-</script>
-
-
-
-
-
-<body>
-  <!-- Our app-index web component. This component is defined in src/pages/app-index.ts-->
-  <h1>Web Authentication Example</h1>
-  <button id="authenticate-button">Authenticate</button>
-  
-  
-
-  <script>
-if (location.protocol == 'https:') {
-    location.replace(`http:${location.href.substring(location.protocol.length)}`);
-  }
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register(
         '/sw.js'
