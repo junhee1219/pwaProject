@@ -48,12 +48,12 @@
 <body>
   <!-- Our app-index web component. This component is defined in src/pages/app-index.ts-->
   <h1>test Example</h1>
-  <button id="authenticate-button">Authenticate</button>
+  <button id="authenticate-button"></button>
   <div id="compass">loading...</div>
   
 
   <script>
-
+document.getElementById('authenticate').innerHTML = "버튼ㅋ"
 let startY = 0; // Initial touch position
 let distance = 0; // Distance dragged
 
