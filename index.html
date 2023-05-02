@@ -2,6 +2,24 @@
 <html lang="en">
 
 <head>
+  <style>
+    /* 로딩바 CSS */
+    #loading-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 5px;
+      background: linear-gradient(to right, blue 50%, transparent 50%);
+      background-size: 200% 100%;
+      animation: loading 2s linear infinite;
+      display: none; /* 처음에는 숨김 */
+    }
+    @keyframes loading {
+      to { background-position: 200% 0; }
+    }
+  </style>
+
   <meta charset="utf-8" />
   <title>PWA Starter</title>
 
@@ -48,6 +66,7 @@
 
 
 <body>
+  <div id="loading-bar"></div>
   <!-- Our app-index web component. This component is defined in src/pages/app-index.ts-->
   <h1>test1 Example</h1>
   <button id="authenticate-button">z</button>
@@ -73,10 +92,12 @@
     window.addEventListener('touchend', function(event) {
       // If dragged down by more than 100px, refresh the page
       if (distance > 100) {
+        document.getElementById('loading-bar').style.display = 'block';
+        location.reload();
         var txt = $("#authenticate-button").text();
         txt = txt + "j";
         $("#authenticate-button").text(txt);
-
+        document.getElementById('loading-bar').style.display = 'none';
 
       }
     }, false);
