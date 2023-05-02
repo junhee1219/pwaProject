@@ -38,6 +38,8 @@
 
   <script type="module" src="/src/app-index.ts"></script>
   <script type="module" src="/webauthen.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
 </head>
 
 
@@ -53,30 +55,31 @@
   
 
   <script>
-document.getElementById('authenticate').innerHTML = "버튼ㅋ"
-let startY = 0; // Initial touch position
-let distance = 0; // Distance dragged
+    $("#authenticate").text("버튼ㅋ")
+    
+    let startY = 0; // Initial touch position
+    let distance = 0; // Distance dragged
 
-window.addEventListener('touchstart', function(event) {
-  startY = event.touches[0].pageY;
-}, false);
+    window.addEventListener('touchstart', function(event) {
+      startY = event.touches[0].pageY;
+    }, false);
 
-window.addEventListener('touchmove', function(event) {
-  distance = event.touches[0].pageY - startY;
-}, false);
+    window.addEventListener('touchmove', function(event) {
+      distance = event.touches[0].pageY - startY;
+    }, false);
 
-window.addEventListener('touchend', function(event) {
-  // If dragged down by more than 100px, refresh the page
-  if (distance > 100) {
-    location.reload();
-    document.getElementById('authenticate').innerHTML = document.getElementById('authenticate').innerHTML + "rr"
+    window.addEventListener('touchend', function(event) {
+      // If dragged down by more than 100px, refresh the page
+      if (distance > 100) {
+        location.reload();
+        $("#authenticate").text($("#authenticate").text()+"r")
 
-  }
-}, false);
+      }
+    }, false);
 
 
     window.addEventListener('deviceorientation', function(event) {
-      document.getElementById('compass').innerHTML = "나침반 각도 얻는중"
+      $("#compass").text("나침반 각도 얻는중")
       var alpha=1234;
       if(event.webkitCompassHeading) {
         alpha = event.webkitCompassHeading; // Apple devices
