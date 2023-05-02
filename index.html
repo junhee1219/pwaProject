@@ -41,7 +41,7 @@
 </head>
 
 
-<div id="compass">로딩 중...</div>
+
 
 
 
@@ -49,12 +49,13 @@
   <!-- Our app-index web component. This component is defined in src/pages/app-index.ts-->
   <h1>Web Authentication Example</h1>
   <button id="authenticate-button">Authenticate</button>
-  
+  <div id="compass">로딩 중...</div>
   
 
   <script>
 window.addEventListener('deviceorientation', function(event) {
-  var alpha;
+  document.getElementById('compass').innerHTML = "나침반 각도 얻는중"
+  var alpha=1234;
   if(event.webkitCompassHeading) {
     alpha = event.webkitCompassHeading; // Apple devices
   }
