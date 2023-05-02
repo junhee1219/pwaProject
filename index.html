@@ -91,7 +91,7 @@
       document.getElementById('compass').innerHTML = "나침반 각도: " + alpha;
     });
     if ('serviceWorker' in navigator) {
-      document.getElementById('authenticate').innerHTML = "버튼"
+      $("#compass").text("서비스워커동작")
 
       navigator.serviceWorker.register(
         '/sw.js'
