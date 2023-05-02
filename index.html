@@ -116,8 +116,9 @@
       document.getElementById('compass').innerHTML = "나침반 각도: " + alpha;
     });
     if ('serviceWorker' in navigator) {
+      
       $("#compass").text("서비스워커동작")
-      $("#console").text(process.browser)
+      $("#console").text(navigator.userAgent)
       navigator.serviceWorker.register(
         '/sw.js'
       );
