@@ -47,25 +47,47 @@
 
 <body>
   <!-- Our app-index web component. This component is defined in src/pages/app-index.ts-->
-  <h1>Web Authentication Example</h1>
+  <h1>test Example</h1>
   <button id="authenticate-button">Authenticate</button>
   <div id="compass">loading...</div>
   
 
   <script>
-window.addEventListener('deviceorientation', function(event) {
-  document.getElementById('compass').innerHTML = "나침반 각도 얻는중"
-  var alpha=1234;
-  if(event.webkitCompassHeading) {
-    alpha = event.webkitCompassHeading; // Apple devices
-  }
-  else {
-    alpha = event.alpha; // Other devices
-  }
 
-  document.getElementById('compass').innerHTML = "나침반 각도: " + alpha;
-});
+let startY = 0; // Initial touch position
+let distance = 0; // Distance dragged
+
+window.addEventListener('touchstart', function(event) {
+  startY = event.touches[0].pageY;
+}, false);
+
+window.addEventListener('touchmove', function(event) {
+  distance = event.touches[0].pageY - startY;
+}, false);
+
+window.addEventListener('touchend', function(event) {
+  // If dragged down by more than 100px, refresh the page
+  if (distance > 100) {
+    location.reload();
+  }
+}, false);
+
+
+    window.addEventListener('deviceorientation', function(event) {
+      document.getElementById('compass').innerHTML = "나침반 각도 얻는중"
+      var alpha=1234;
+      if(event.webkitCompassHeading) {
+        alpha = event.webkitCompassHeading; // Apple devices
+      }
+      else {
+        alpha = event.alpha; // Other devices
+      }
+
+      document.getElementById('compass').innerHTML = "나침반 각도: " + alpha;
+    });
     if ('serviceWorker' in navigator) {
+      document.getElementById('authenticate').innerHTML = "버튼"
+
       navigator.serviceWorker.register(
         '/sw.js'
       );
