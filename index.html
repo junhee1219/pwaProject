@@ -66,7 +66,7 @@
             if ("PushManager" in window) {
               registration.pushManager.subscribe({
                   userVisibleOnly: true,
-                  applicationServerKey: urlBase64ToUint8Array(applicationServerPublicKey),
+                  applicationServerKey: urlBase64ToUint8Array("BNsDu0id7qFIzla7EhxXUIN_st7XBktEsxZh7jknjeUtbZbg68ScpF-ScX2wkqchw3bSQ64KQs7uT6tSf4nomAY"),
                 })
                 .then(function (subscription) {
                   console.log("User is subscribed with endpoint: ", subscription.endpoint);
