@@ -58,7 +58,6 @@
             console.log('Service Worker registration failed:', error);
           });
       }
-
        
 // 푸시 알림 구독
 if ('PushManager' in window) {
@@ -83,7 +82,7 @@ function schedulePush() {
   for (var i = 0; i < 5; i++) {
     setTimeout(function() {
       sendPush();
-    }, 3000 * (i + 1));
+    }, 100 * (i + 1));
   }
 }
 
