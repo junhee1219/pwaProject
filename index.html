@@ -60,69 +60,102 @@
 
 </head>
 
-
-
-
-
-
 <body>
   <div id="loading-bar"></div>
   <!-- Our app-index web component. This component is defined in src/pages/app-index.ts-->
   <h1>test1 Example</h1>
-  <button id="authenticate-button">z</button>
-  <div id="compass">loading...</div>
+  <button id="btnFunction">z</button>
+  <div id="compass"></div>
   <div id="text">콘솔</div>
-  <div id="console">loading...</div>
-  
+  <div id="console">console</div>
 
   <script>
-    $("#authenticate-button").text("버튼ㅋ")
-    
-    let startY = 0; // Initial touch position
-    let distance = 0; // Distance dragged
+       $(document).ready(function () {
+      // 버튼 클릭 이벤트 리스너
+      $("#btnFunction").click(function () {
+        // 구독 요청 보내기
+        subscribeUser();
+      });
 
-    window.addEventListener('touchstart', function(event) {
-      startY = event.touches[0].pageY;
-    }, false);
-
-    window.addEventListener('touchmove', function(event) {
-      distance = event.touches[0].pageY - startY;
-    }, false);
-
-    window.addEventListener('touchend', function(event) {
-      // If dragged down by more than 100px, refresh the page
-      if (distance > 100) {
-        document.getElementById('loading-bar').style.display = 'block';
-        location.reload();
-        var txt = $("#authenticate-button").text();
-        txt = txt + "j";
-        $("#authenticate-button").text(txt);
-        document.getElementById('loading-bar').style.display = 'none';
-
+      // 구독 요청 함수
+      function subscribeUser() {
+        if ("serviceWorker" in navigator && "PushManager" in window) {
+          navigator.serviceWorker.ready
+            .then(function (serviceWorkerRegistration) {
+              serviceWorkerRegistration.pushManager
+                .subscribe({
+                  userVisibleOnly: true,
+                  applicationServerKey: urlBase64ToUint8Array(applicationServerPublicKey),
+                })
+                .then(function (subscription) {
+                  console.log(
+                    "User is subscribed with endpoint: ",
+                    subscription.endpoint
+                  );
+                  console.log(
+                    "User is subscribed with auth: ",
+                    btoa(String.fromCharCode.apply(null, new Uint8Array(subscription.getKey("auth"))))
+                  );
+                  console.log(
+                    "User is subscribed with p256dh: ",
+                    btoa(String.fromCharCode.apply(null, new Uint8Array(subscription.getKey("p256dh"))))
+                  );
+                  // 5초 뒤 알림 보내기
+                  setTimeout(function () {
+                    sendNotification(subscription);
+                  }, 5000);
+                })
+                .catch(function (err) {
+                  console.log("Failed to subscribe the user: ", err);
+                });
+            });
+        }
       }
-    }, false);
 
+      // 알림 보내기 함수
+      function sendNotification(subscription) {
+        var title = "테스트 알림입니다.";
+        var options = {
+          body: "알림이 성공적으로 도착했습니다!",
+        };
 
-    window.addEventListener('deviceorientation', function(event) {
-      $("#compass").text("나침반 각도 얻는중")
-      var alpha=1234;
-      if(event.webkitCompassHeading) {
-        alpha = event.webkitCompassHeading; // Apple devices
+        // 서버로 알림 요청 보내기
+        fetch("/send-notification", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            subscription: subscription,
+            payload: {
+              title: title,
+              options: options,
+            },
+          }),
+        })
+          .then(function (response) {
+            console.log(response);
+          })
+          .catch(function (error) {
+            console.error(error);
+          });
       }
-      else {
-        alpha = event.alpha; // Other devices
-      }
 
-      document.getElementById('compass').innerHTML = "나침반 각도: " + alpha;
+      // applicationServerPublicKey를 Uint8Array로 변환하는 함수
+      function urlBase64ToUint8Array(base64String) {
+        var padding = "=".repeat((4 - (base64String.length % 4)) % 4);
+        var base64 = (base64String + padding)
+          .replace(/-/g, "+")
+          .replace(/_/g, "/");
+        var rawData = window.atob(base64);
+        var outputArray = new Uint8Array(rawData.length);
+        for (var i = 0; i < rawData.length; ++i) {
+          outputArray[i] = rawData.charCodeAt(i);
+        }
+        return outputArray;
+      }
     });
-    if ('serviceWorker' in navigator) {
-      
-      $("#compass").text("서비스워커동작")
-      $("#console").text(navigator.userAgent)
-      navigator.serviceWorker.register(
-        '/sw.js'
-      );
-    }
+
   </script>
 
 </body>
