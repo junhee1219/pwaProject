@@ -48,71 +48,39 @@
   <button id="push-btn" onclick="schedulePush()">푸쉬 테스트</button>
 
   <script>
-            // Service Worker 등록
-        if ('serviceWorker' in navigator) {
-          navigator.serviceWorker.register("firebase-message-sw.js")
-          navigator.serviceWorker.register('/sw.js')
-            .then(function(registration) {
-              console.log('Service Worker registered');
-            })
-            .catch(function(error) {
-              console.log('Service Worker registration failed:', error);
-            });
-        }
+       function requestNotificationPermission() {
+      Notification.requestPermission()
+        .then(function(permission) {
+          console.log('Notification permission:', permission);
+        })
+        .catch(function(error) {
+          console.log('Notification permission error:', error);
+        });
+    }
 
-        // 푸시 알림 구독
-        if ('PushManager' in window) {
-          navigator.serviceWorker.ready
-            .then(function(registration) {
-              return registration.pushManager.subscribe({
-                userVisibleOnly: true,
-                applicationServerKey: urlBase64ToUint8Array('BNsDu0id7qFIzla7EhxXUIN_st7XBktEsxZh7jknjeUtbZbg68ScpF-ScX2wkqchw3bSQ64KQs7uT6tSf4nomAY')
-              });
-            })
-            .then(function(subscription) {
-              console.log('Subscription:', subscription);
-            })
-            .catch(function(error) {
-              console.log('Subscription failed:', error);
-            });
-        }
+    // 예약된 푸시 알림 전송
+    function schedulePush() {
+      for (var i = 0; i < 5; i++) {
+        setTimeout(function() {
+          sendPush();
+        }, 3000 * (i + 1));
+      }
+    }
 
-        // 예약된 푸시 알림 전송
-        function schedulePush() {
-          for (var i = 0; i < 5; i++) {
-            setTimeout(function() {
-              sendPush();
-            }, 3000 * (i + 1));
-          }
-        }
+    // 푸시 알림 요청
+    function sendPush() {
+      if (Notification.permission === 'granted') {
+        var title = 'Your Title';
+        var options = {
+          body: 'Your Message',
+          icon: '/images/icon.png'
+        };
 
-        // 푸시 알림 요청
-        function sendPush() {
-          fetch('/send-push')
-            .then(function(response) {
-              console.log('Push sent:', response);
-            })
-            .catch(function(error) {
-              console.log('Push failed:', error);
-            });
-        }
-
-        // Public Key를 Uint8Array로 변환하는 함수
-        function urlBase64ToUint8Array(base64String) {
-          var padding = '='.repeat((4 - base64String.length % 4) % 4);
-          var base64 = (base64String + padding)
-            .replace(/\-/g, '+')
-            .replace(/_/g, '/');
-
-          var rawData = window.atob(base64);
-          var outputArray = new Uint8Array(rawData.length);
-
-          for (var i = 0; i < rawData.length; ++i) {
-            outputArray[i] = rawData.charCodeAt(i);
-          }
-
-          return outputArray;
-        }
+        var notification = new Notification(title, options);
+      } else {
+        console.log('Notification permission denied');
+      }
+    }
 
 
   </script>
