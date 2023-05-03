@@ -48,23 +48,23 @@
   <button id="push-btn" onclick="schedulePush()">푸쉬 테스트</button>
 
   <script>
-            // Service Worker 등록
-        if ('serviceWorker' in navigator) {
-          navigator.serviceWorker.register("firebase-message-sw.js")
-          navigator.serviceWorker.register('/sw.js')
-            .then(function(registration) {
-              console.log('Service Worker registered');
-            })
-            .catch(function(error) {
-              console.log('Service Worker registration failed:', error);
-            });
-        }
+          // Service Worker 등록
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/sw.js')
+          .then(function(registration) {
+            console.log('Service Worker registered');
+          })
+          .catch(function(error) {
+            console.log('Service Worker registration failed:', error);
+          });
+      }
 
        
 // 푸시 알림 구독
 if ('PushManager' in window) {
   navigator.serviceWorker.ready
     .then(function(registration) {
+      console.log(registration)
       return registration.pushManager.subscribe({
         userVisibleOnly: true,
         applicationServerKey: urlBase64ToUint8Array('BNsDu0id7qFIzla7EhxXUIN_st7XBktEsxZh7jknjeUtbZbg68ScpF-ScX2wkqchw3bSQ64KQs7uT6tSf4nomAY')
@@ -119,9 +119,10 @@ function urlBase64ToUint8Array(base64String) {
 
   return outputArray;
 }
-
   </script>
 </body>
+
+
 
 
 </html>
