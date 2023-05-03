@@ -43,12 +43,11 @@
 </head>
 
 <body>
-  <div id="loading-bar"></div>
-  <h1>PWA Push Notification Example</h1>
-  <button id="push-btn">푸쉬 알림 받기</button>
+
+  <h1>PWA테스트중입니다.</h1>
+  <button id="push-btn" onclick="schedulePush()">푸쉬 테스트</button>
 
   <script>
-
             // Service Worker 등록
         if ('serviceWorker' in navigator) {
           navigator.serviceWorker.register("firebase-message-sw.js")
