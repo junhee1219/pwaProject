@@ -45,25 +45,28 @@
 <body>
 
   <h1>PWA테스트중입니다.</h1>
-  <button id="push-btn" onclick="schedulePush()">푸쉬 테스트</button>
+  <span id="console"></span>
   <div id="scandit-barcode-picker" style="max-width: 1280px; max-height: 80%;"></div>
   <script>
 
-
+      const consoleSpan = document.getElementById("console");
+      consoleSpan.innerText = "스캔중";
 ScanditSDK.configure("ATvDMjCIE3blD9UmohYZh/AKMNP8NvxVWWP0cO5yoGsea/FIS3KXA/onHW6FVV3X+lYRarogwqWYUABi6030kwA4JTucT9iTIGH7wbUwFiJ8T+KfLiLi0SJyNnpKXwFlHGPWqJoqp9vnRQB8WXNwLUpq6EXzdAhXQGkoYdJm5P6QYkPVJ2VPvGFLOOquQFQSc1TiP30QHQozBkMdxwK2eQkIORt7FR2ZGiRzNExaYbND9ALoa2tZAH2CZFis8ORBb/gr1tLt31N9u5EpUy8+1QJPwkKZU3+FRIIdjFR3XASQpR/HaZpia4vEcIGXPLgMPz7wdzUxieDx7LBWKoRB/JKVA5zPnrmGOD11gJno3Tt3D5/6v0YAnlDorM4+gzNrch2eh3oC1fLowNsxqUGukxN/d599ey14gnCgHcQ26ixzTiOBQpkXdoV38cRLDkjSCduL9o/EGdHJQpIJHU1k90rWHsAQ/A5bTUO2i1W48vdlnFL5KvWDfcOZS04di79Fwumgbi6LXNEzvCgUEAEcWS9gIGQP8JQm5HIcY2eh9prmRHCuvbE19xpgzTySr0CI3qd0VaHdZ9JXveIR6ToQwjRELVXCBz5rhRNP/yYi3PAkRe23RzP5jrMGjIcjgMTVo1dwKrXgZgD8FJhRRvmycJbl8Le/m17ZNfSgfuqTgCqL4tEPRZKPbEOb5I+prK4XIHK3/H4Oh7xA8XR93x7SenYN5RjCJTaMKKna5l77PezGJO6stPWpW2gLrK/eCj+Q/+cI3vHmonb3AiNGVxs2bCYu3mJhWPBTF0FYE3ZkhYuVDAYZU1gJldzT+u8Qs09w/g361a3ym6FMfSmwKdJ0hXPVp05lx8SzB7Uw9W3IQiMDBtEZlA9c0huF5/32f7fcnxQpgg==", {
   engineLocation: "https://cdn.jsdelivr.net/npm/scandit-sdk@5.x/build/",
 })
   .then(() => {
-    console.log("hi")
     return ScanditSDK.BarcodePicker.create(document.getElementById("scandit-barcode-picker"), {
       // enable some common symbologies
       scanSettings: new ScanditSDK.ScanSettings({ enabledSymbologies: ["ean8", "ean13", "upca", "upce"] }),
     });
   })
   .then((barcodePicker) => {
-    console.log("hi2")
     // barcodePicker is ready here, show a message every time a barcode is scanned
     barcodePicker.on("scan", (scanResult) => {
+      const consoleSpan = document.getElementById("console");
+      var currentTime = new Date();
+      var timeString = currentTime.toLocaleTimeString();
+      consoleSpan.innerText = "바코드 : "+scanResult.barcodes[0].data+"현재시각 : "+timeString;
       alert(scanResult.barcodes[0].data);
     });
   });
