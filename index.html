@@ -48,63 +48,9 @@
   <button id="push-btn" onclick="schedulePush()">푸쉬 테스트</button>
   <div id="scandit-barcode-picker" style="max-width: 1280px; max-height: 80%;"></div>
   <script>
-          // Service Worker 등록
-      if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('/sw.js')
-          .then(function(registration) {
-            console.log('Service Worker registered');
-          })
-          .catch(function(error) {
-            console.log('Service Worker registration failed:', error);
-          });
-      }
-       
-// 푸시 알림 구독
-if ('PushManager' in window) {
-  navigator.serviceWorker.ready
-    .then(function(registration) {
-      console.log(registration)
-      return registration.pushManager.subscribe({
-        userVisibleOnly: true,
-        applicationServerKey: urlBase64ToUint8Array('BNsDu0id7qFIzla7EhxXUIN_st7XBktEsxZh7jknjeUtbZbg68ScpF-ScX2wkqchw3bSQ64KQs7uT6tSf4nomAY')
-      });
-    })
-    .then(function(subscription) {
-      console.log('Subscription:', subscription);
-    })
-    .catch(function(error) {
-      console.log('Subscription failed:', error);
-    });
-}
-
-// 예약된 푸시 알림 전송
-function schedulePush() {
-  for (var i = 0; i < 5; i++) {
-    setTimeout(function() {
-      sendPush();
-    }, 100 * (i + 1));
-  }
-}
-
-// 푸시 알림 요청
-function sendPush() {
-  navigator.serviceWorker.ready
-    .then(function(registration) {
-      return registration.showNotification('Your Title', {
-        body: 'Your Message',
-      });
-    })
-    .then(function(notification) {
-      console.log('Notification sent:', notification);
-    })
-    .catch(function(error) {
-      console.log('Notification failed:', error);
-    });
-}
 
 
-
-ScanditSDK.configure("AUIzLTaIFWV0CgRe/xMUkxga6IF8PPxE9npb6oJ3HBtBQW7muWk1jBsIXBYJf9HCZUVEum1Gu6Q1aSZyOQ01KsUi9qfUakMZcUK4DP1VpzJqG8q74g0C+ZMyM5BkRFQ9Hs7uUhVKuuK6X4c/QClBrP6+yYKyb4vVUpvxqm7hqVCxWLCG2cA2Xgnz6AjFRkX94y9kOMF64ChauTjD+KrkgO6/RcCJiggKqLJrsuP/uPMlB4EhRWcys8BsJpq8/lTulUKI9qltV1j/NBAYnPY+fCWy8LueaoCit/7memWpCjHq38td/aTjU4Q9J4jje3i0mjtb+dbs5aglqVCbftM6IRZrfsJzsstC2W4o7jdOIoGYkeRb2kx6sMRfWgdCsBGm6gryWUFX1fuphL3/i8IMR9r/YccbpFSLPTMoxlj5e4fe71Fe4qkXYvAC/0GNfOM7GFMly0LLFMJtnIHse+NsSWeRSKAJkLnt6KGOp1sRbiMDNOsOxjeAbAoDFLtRlFxzA6TmWp4IAtDgRVIUAKS420B3vuqmyMDIJbJCtlrWf3rtHTo7ttzbSqXAtmRqqJkBTyBAprzYbADLYlmic2WFhG9dlNQ3xHkKIMZg0Bm1u1PS+eUtvzbqJFZ7OIWw27oXhtkHCeV0i2GVVzONY6h1obZOb2E25Z4+v+VXv6J7YA2xQ7wXBFoUUR8z7eYN7I7PyPGNV/JwMxSCKA8+6CKDHWEoR6zpZdun+PpzVYugR1nXmsDFqPVNrj0MTM4pB7MEio9YH6h0NuIscYMZbU2ZlIZ2eXl17NLsMD81SveRjw==", {
+ScanditSDK.configure("ATvDMjCIE3blD9UmohYZh/AKMNP8NvxVWWP0cO5yoGsea/FIS3KXA/onHW6FVV3X+lYRarogwqWYUABi6030kwA4JTucT9iTIGH7wbUwFiJ8T+KfLiLi0SJyNnpKXwFlHGPWqJoqp9vnRQB8WXNwLUpq6EXzdAhXQGkoYdJm5P6QYkPVJ2VPvGFLOOquQFQSc1TiP30QHQozBkMdxwK2eQkIORt7FR2ZGiRzNExaYbND9ALoa2tZAH2CZFis8ORBb/gr1tLt31N9u5EpUy8+1QJPwkKZU3+FRIIdjFR3XASQpR/HaZpia4vEcIGXPLgMPz7wdzUxieDx7LBWKoRB/JKVA5zPnrmGOD11gJno3Tt3D5/6v0YAnlDorM4+gzNrch2eh3oC1fLowNsxqUGukxN/d599ey14gnCgHcQ26ixzTiOBQpkXdoV38cRLDkjSCduL9o/EGdHJQpIJHU1k90rWHsAQ/A5bTUO2i1W48vdlnFL5KvWDfcOZS04di79Fwumgbi6LXNEzvCgUEAEcWS9gIGQP8JQm5HIcY2eh9prmRHCuvbE19xpgzTySr0CI3qd0VaHdZ9JXveIR6ToQwjRELVXCBz5rhRNP/yYi3PAkRe23RzP5jrMGjIcjgMTVo1dwKrXgZgD8FJhRRvmycJbl8Le/m17ZNfSgfuqTgCqL4tEPRZKPbEOb5I+prK4XIHK3/H4Oh7xA8XR93x7SenYN5RjCJTaMKKna5l77PezGJO6stPWpW2gLrK/eCj+Q/+cI3vHmonb3AiNGVxs2bCYu3mJhWPBTF0FYE3ZkhYuVDAYZU1gJldzT+u8Qs09w/g361a3ym6FMfSmwKdJ0hXPVp05lx8SzB7Uw9W3IQiMDBtEZlA9c0huF5/32f7fcnxQpgg==", {
   engineLocation: "https://cdn.jsdelivr.net/npm/scandit-sdk@5.x/build/",
 })
   .then(() => {
@@ -122,22 +68,7 @@ ScanditSDK.configure("AUIzLTaIFWV0CgRe/xMUkxga6IF8PPxE9npb6oJ3HBtBQW7muWk1jBsIXB
     });
   });
 
-// Public Key를 Uint8Array로 변환하는 함수
-function urlBase64ToUint8Array(base64String) {
-  var padding = '='.repeat((4 - base64String.length % 4) % 4);
-  var base64 = (base64String + padding)
-    .replace(/\-/g, '+')
-    .replace(/_/g, '/');
 
-  var rawData = window.atob(base64);
-  var outputArray = new Uint8Array(rawData.length);
-
-  for (var i = 0; i < rawData.length; ++i) {
-    outputArray[i] = rawData.charCodeAt(i);
-  }
-
-  return outputArray;
-}
 barcodePicker.on("scan", (scanResult) => {
   alert(
     scanResult.barcodes.reduce((string, barcode) => {
