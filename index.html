@@ -138,6 +138,14 @@ function urlBase64ToUint8Array(base64String) {
 
   return outputArray;
 }
+barcodePicker.on("scan", (scanResult) => {
+  alert(
+    scanResult.barcodes.reduce((string, barcode) => {
+      return string + `${ScanditSDK.Barcode.Symbology.toHumanizedName(barcode.symbology)}: ${barcode.data}\n`;
+    }, "")
+  );
+});
+
   </script>
 </body>
 
