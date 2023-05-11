@@ -39,14 +39,14 @@
 
   <script type="module" src="/src/app-index.ts"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
+  <script src="https://cdn.jsdelivr.net/npm/scandit-sdk@5.x"></script>
 </head>
 
 <body>
 
   <h1>PWA테스트중입니다.</h1>
   <button id="push-btn" onclick="schedulePush()">푸쉬 테스트</button>
-
+  <div id="scandit-barcode-picker" style="max-width: 1280px; max-height: 80%;"></div>
   <script>
           // Service Worker 등록
       if ('serviceWorker' in navigator) {
@@ -101,6 +101,26 @@ function sendPush() {
       console.log('Notification failed:', error);
     });
 }
+
+
+
+ScanditSDK.configure("Ac7zkhiIO+4+Kq6vR0OMI/ovSijWHfbwSFLF614nYO//QVC7f15T0/AXV/NhbBLe131MxklObYElRnbDkVCnCM8aSB49efoCAiadx8RwYdQ4cfKywE/5A3RFUbX4RjI6H1do3LNsIgSKb3ej0Hf54GYRss/pSuzv1kX+iElA2vFBAsLAP0oM2/9GPa/BRsNP9lLBPIxm47dNZgwbuVTlQpZTW09fTrtlfWZafN5ljLOAY4xtlVExEolfSXIFdpC6zWdzXsRYYShjYP/vGWn7GMpKfXy4TlcW4kENwcJ69Q9jT/n+8UssbLZH6Md7Ztv5CF/6USpXOMU2aNrIL0yy2vF9xyACWsn9Tn+mmBB31xAjI6M0Zk1oJ9h+GR6FQ57mFWMvOQ5EQt3YW8XKVnOS3FlCTi5KVUNM13XBLz1Yvqy1fRDdcVS7zi5JSlZlTfj0eFwu6dhJo78zCyrv4UR3dOJEro8cS0FcYHPkrrRkLuZnXYopr1xrgzpO2ihFLsBSV2rDrKBig/9+Qt+A4hXAaq41/2s2NKHAQgHCW+E0ge0zGIOXO0Er8pssyCKKfOixfQts1GHnji8RwA/QP/xXY/hFoJV+VmWApXUeUf0xbdqvWmGOVJwdYF24rfZUgypkObAoyYf8b15dCiCtggchZ7Ee6Gs38vZrjGerKBcJ9QcNu5Xt3PjxUqhwFtQaBSzeMHc05RLFyhIDiu3n55H6v51aYnZYZIQ8IGnNOs2ahmJiQFquDs4VSS8kgWMMghsN5lPLC1YUf26O9Yaq7a+IcMlWmAskxUv/peWu1U/2wM2RKYo74IIXySLeYAyjoS5Y7/PJVBE6L3saLLHjyZgVlcNK017Hkbt0yvT+MZDUhlsDWd3XkIioHIgxSC3prCDyhipOx9AsXSp1XeEUewva6xMGwxWfOHRc/ekUSfmWj/+4IE7+6hNix/Z9WqJxFKtvkr0H8vWgGB6vFsM4WXvMj1uKb5Sf8epx93EBCYVOJNmW7kHLoxGSm2jdXMZ7YejYkJWS/7HIscypdLn2kiw34qsAYXjm/raU0xRXPmNGs4PY79N5DgOE+uOosUKASsCVGFQWc+NKSpCrbHYITPOINRb+n5610akaOifE4ofV/p7S4dj0SEv1nrVTxQQzkc91NMou3dVqJiNWX5gHHojN9K8if+eq88BjL9is/mbPVO9cQLx3z6BJN5LtgVTwrzgWyiWJVvl7TbjdghU5uklL5axu6WKtJfQ=", {
+  engineLocation: "https://cdn.jsdelivr.net/npm/scandit-sdk@5.x/build/",
+})
+  .then(() => {
+    console.log("hi")
+    return ScanditSDK.BarcodePicker.create(document.getElementById("scandit-barcode-picker"), {
+      // enable some common symbologies
+      scanSettings: new ScanditSDK.ScanSettings({ enabledSymbologies: ["ean8", "ean13", "upca", "upce"] }),
+    });
+  })
+  .then((barcodePicker) => {
+    console.log("hi2")
+    // barcodePicker is ready here, show a message every time a barcode is scanned
+    barcodePicker.on("scan", (scanResult) => {
+      alert(scanResult.barcodes[0].data);
+    });
+  });
 
 // Public Key를 Uint8Array로 변환하는 함수
 function urlBase64ToUint8Array(base64String) {
